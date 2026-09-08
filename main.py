@@ -1,4 +1,6 @@
+import os
 import re
+import sys
 
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -8,14 +10,28 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 # =========================
 # INPUT
 # =========================
-# Accepts one or more companies, e.g.:
-#   "Datazymes (August 10)"
-#   "Datazymes (Aug 13), QuestKart (Aug 18), Unicourt (Aug 24), Incture (Aug 26)"
+# Reads company/date entries from names.txt in the same folder as this
+# script, one entry per line, e.g.:
+#
+#   Amazon (Aug 10)
+#   Microsoft (Sept 13)
+#   Datazymes (Aug 13)
 
-companies_input = input(
-    "Enter company name(s) and date(s), comma-separated "
-    "(e.g. Datazymes (Aug 13), QuestKart (Aug 18)): "
-)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+names_file = os.path.join(script_dir, "names.txt")
+
+if not os.path.exists(names_file):
+    sys.exit(
+        f"Could not find names.txt next to this script (looked in {script_dir}). "
+        f"Create it with one 'Company (Date)' entry per line."
+    )
+
+with open(names_file, "r", encoding="utf-8") as f:
+    lines = [line.strip() for line in f if line.strip()]
+
+if not lines:
+    sys.exit("names.txt is empty. Add at least one 'Company (Date)' entry.")
+
 letter_date = input("Enter letter date (e.g. 27th August 2026): ")
 
 student_name = "Shaldon Barnes"
@@ -25,12 +41,9 @@ teacher_name = "Dr. Minu P. Abraham"
 teacher_designation = "Assistant Professor Gd. III"
 college_name = "NMAM Institute of Technology, Nitte"
 
-# Parse each "Company (Date)" entry into a (company, date) tuple
+# Parse each "Company (Date)" line into a (company, date) tuple
 placements = []
-for entry in companies_input.split(","):
-    entry = entry.strip()
-    if not entry:
-        continue
+for entry in lines:
     match = re.match(r"^(.*?)\s*\((.*?)\)\s*$", entry)
     if match:
         placements.append((match.group(1).strip(), match.group(2).strip()))
