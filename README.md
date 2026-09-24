@@ -86,9 +86,6 @@ For example:
 ```text
 Infosys Workshop (August 31)
 Unicourt Workshop (September 1)
-Infosys (September 2)
-Unicourt Technical Interview (September 7)
-Dover India (September 16)
 ```
 
 The script accepts both full company names and activity descriptions because everything before the parentheses is treated as the activity/company name.
@@ -147,9 +144,9 @@ Student and faculty information is currently defined near the top of `main.py`:
 
 ```python
 student_name = "Shaldon Barnes"
-usn = "NNM23CS172"
-year_section = "4th Year, Section C"
-teacher_name = "Dr. Minu P. Abraham"
+usn = "NNM23CSXXX"
+year_section = "XXXX"
+teacher_name = "YYYYyy"
 teacher_designation = "Assistant Professor Gd. III"
 college_name = "NMAM Institute of Technology, Nitte"
 ```
